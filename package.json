@@ -1,5 +1,5 @@
 {
-  "name": "zoneless",
+  "name": "@zoneless/node",
   "version": "0.1.0-beta.1",
   "description": "Zoneless SDK for Node.js",
   "main": "dist/index.js",
@@ -55,6 +55,9 @@
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
 

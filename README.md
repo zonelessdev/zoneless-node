@@ -5,13 +5,13 @@ The official Node.js SDK for the [Zoneless](https://zoneless.com) API — an ope
 ## Installation
 
 ```bash
-npm install zoneless
+npm install @zoneless/node
 ```
 
 ## Usage
 
 ```typescript
-import { Zoneless } from 'zoneless';
+import { Zoneless } from '@zoneless/node';
 
 const zoneless = new Zoneless('sk_live_z_YOUR_API_KEY', 'https://api.yourdomain.com');
 
