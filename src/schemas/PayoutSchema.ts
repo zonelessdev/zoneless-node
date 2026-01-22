@@ -104,3 +104,34 @@ export const ListPayoutsSchema = z.object({
 });
 
 export type ListPayoutsInput = z.infer<typeof ListPayoutsSchema>;
+
+/**
+ * Schema for building a batch payout transaction.
+ * Takes an array of pending payout IDs and returns an unsigned transaction.
+ */
+export const BuildPayoutsBatchSchema = z.object({
+  /** Array of payout IDs to include in the batch transaction */
+  payouts: z
+    .array(z.string().min(1, 'Payout ID cannot be empty'))
+    .min(1, 'At least one payout ID is required')
+    .max(10, 'Maximum 10 payouts per batch transaction'),
+});
+
+export type BuildPayoutsBatchInput = z.infer<typeof BuildPayoutsBatchSchema>;
+
+/**
+ * Schema for broadcasting a signed batch payout transaction.
+ * Takes the signed transaction and the payout IDs it contains.
+ */
+export const BroadcastPayoutsBatchSchema = z.object({
+  /** The signed transaction as a base64-encoded string */
+  signed_transaction: z.string().min(1, 'Signed transaction is required'),
+
+  /** Array of payout IDs included in this transaction (for verification and status updates) */
+  payouts: z
+    .array(z.string().min(1, 'Payout ID cannot be empty'))
+    .min(1, 'At least one payout ID is required')
+    .max(10, 'Maximum 10 payouts per batch transaction'),
+});
+
+export type BroadcastPayoutsBatchInput = z.infer<typeof BroadcastPayoutsBatchSchema>;

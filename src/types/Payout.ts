@@ -123,3 +123,63 @@ export interface PayoutResponse {
   failure_code?: PayoutFailureCode;
   failure_message?: string;
 }
+
+/**
+ * Response from the build endpoint for batch payouts.
+ * Contains an unsigned transaction ready for local signing.
+ */
+export interface PayoutBatchBuildResponse {
+  object: 'payout_batch_build';
+  /** Base64-encoded unsigned Solana transaction */
+  unsigned_transaction: string;
+  /** Estimated transaction fee in lamports */
+  estimated_fee_lamports: number;
+  /** Blockhash used for the transaction */
+  blockhash: string;
+  /** Block height after which the transaction expires */
+  last_valid_block_height: number;
+  /** Array of payout objects included in the transaction */
+  payouts: Payout[];
+  /** Total amount in cents being paid out */
+  total_amount: number;
+  /** Number of recipients in the transaction */
+  recipients_count: number;
+}
+
+/**
+ * Response from the broadcast endpoint for batch payouts.
+ * Contains the result of broadcasting the signed transaction.
+ */
+export interface PayoutBatchBroadcastResponse {
+  object: 'payout_batch_broadcast';
+  /** Transaction signature on Solana */
+  signature: string;
+  /** Status of the broadcast: 'paid' or 'failed' */
+  status: 'paid' | 'failed';
+  /** URL to view the transaction on Solana Explorer */
+  viewer_url: string;
+  /** Array of updated payout objects */
+  payouts: Payout[];
+  /** Error message if the transaction failed */
+  failure_message?: string;
+}
+
+/**
+ * Result of the processPending operation.
+ */
+export interface ProcessPendingResult {
+  /** Transaction signature on Solana */
+  signature: string;
+  /** Status of the operation: 'paid' or 'failed' */
+  status: 'paid' | 'failed';
+  /** URL to view the transaction on Solana Explorer */
+  viewer_url: string;
+  /** Array of processed payout objects */
+  payouts: Payout[];
+  /** Total amount in cents that was paid out */
+  total_amount: number;
+  /** Whether there are more pending payouts to process (call again if true) */
+  has_more: boolean;
+  /** Error message if the operation failed */
+  failure_message?: string;
+}
