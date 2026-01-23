@@ -243,6 +243,35 @@ export class Payouts extends BaseResource {
   }
 
   /**
+   * Sign an unsigned transaction locally using a Solana secret key.
+   * Use this after calling `build()` to sign the transaction before broadcasting.
+   *
+   * @param unsignedTransaction - Base64-encoded unsigned transaction from `build()`
+   * @param secretKey - Solana secret key (base58 encoded)
+   * @returns Base64-encoded signed transaction ready for `broadcast()`
+   *
+   * @example
+   * ```typescript
+   * const buildResult = await zoneless.payouts.build({
+   *   payouts: ['po_z123', 'po_z456']
+   * });
+   * const signedTx = zoneless.payouts.sign(
+   *   buildResult.unsigned_transaction,
+   *   process.env.SOLANA_SECRET_KEY
+   * );
+   * const result = await zoneless.payouts.broadcast({
+   *   signed_transaction: signedTx,
+   *   payouts: ['po_z123', 'po_z456']
+   * });
+   * ```
+   *
+   * @see https://zoneless.com/docs/payouts/sign
+   */
+  sign(unsignedTransaction: string, secretKey: string): string {
+    return this.SignTransaction(unsignedTransaction, secretKey);
+  }
+
+  /**
    * Sign a transaction locally using a Solana secret key.
    *
    * @param unsignedTransaction - Base64-encoded unsigned transaction
