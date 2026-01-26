@@ -111,6 +111,14 @@ export interface Payout {
 
   /** Can be 'wallet' for crypto payouts (equivalent to Stripe's 'bank_account' or 'card') */
   type: PayoutDestinationType;
+
+  /**
+   * The platform account that owns this resource.
+   * For connected account resources, this is the platform's account ID.
+   * For platform's own resources, this equals the account field (self-referential).
+   * @zoneless_extension
+   */
+  platform_account: string;
 }
 
 export interface PayoutResponse {

@@ -37,8 +37,16 @@ export interface WebhookEndpoint {
  * @internal
  */
 export interface WebhookEndpointRecord extends WebhookEndpoint {
-  /** The platform account this webhook endpoint belongs to (internal field, not returned in API) */
+  /** The account this webhook endpoint belongs to (internal field, not returned in API) */
   account: string;
+
+  /**
+   * The platform account that owns this resource.
+   * For connected account resources, this is the platform's account ID.
+   * For platform's own resources, this equals the account field (self-referential).
+   * @zoneless_extension
+   */
+  platform_account: string;
 }
 
 /**
