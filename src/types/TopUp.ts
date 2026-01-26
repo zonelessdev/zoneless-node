@@ -38,10 +38,18 @@ export interface TopUp {
   transfer_group: string | null;
 
   // Zoneless extensions (not in Stripe)
-  /** The platform account this top-up belongs to */
+  /** The account this top-up belongs to */
   account: string;
   /** Unix timestamp in seconds when funds actually arrived (null if pending) */
   arrival_date: number | null;
+
+  /**
+   * The platform account that owns this resource.
+   * For connected account resources, this is the platform's account ID.
+   * For platform's own resources, this equals the account field (self-referential).
+   * @zoneless_extension
+   */
+  platform_account: string;
 }
 
 /**
@@ -68,6 +76,9 @@ export interface TopUpSource {
   /** Additional metadata about the source */
   metadata?: Record<string, string>;
 }
+
+// Note: CreateTopUpInput and UpdateTopUpInput are exported from schemas/TopUpSchema.ts
+// to stay in sync with Zod validation schemas
 
 /**
  * Response from POST /v1/topups/check-deposits

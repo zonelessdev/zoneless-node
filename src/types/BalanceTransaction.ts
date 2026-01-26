@@ -114,4 +114,12 @@ export interface BalanceTransaction {
    * @zoneless_extension - Not in Stripe API, used for internal storage.
    */
   metadata?: Record<string, string>;
+
+  /**
+   * The platform account that owns this resource.
+   * For connected account resources, this is the platform's account ID.
+   * For platform's own resources, this equals the account field (self-referential).
+   * @zoneless_extension
+   */
+  platform_account: string;
 }

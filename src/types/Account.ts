@@ -111,13 +111,14 @@ export interface Account {
   // ─────────────────────────────────────────────────────────────────────────────
 
   /**
-   * The platform account that created this connected account.
-   * Null or undefined for platform accounts themselves.
+   * The platform account that owns this account.
+   * For connected accounts, this is the platform's account ID.
+   * For platform accounts, this is self-referential (equals the account's own id).
    * This enables multi-tenant operation where multiple platforms
    * can each have their own connected accounts.
    * @zoneless_extension
    */
-  platform_account?: string | null;
+  platform_account: string;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

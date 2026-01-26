@@ -37,6 +37,14 @@ export interface ExternalWallet {
   status: ExternalWalletStatus;
   /** The full wallet address */
   wallet_address: string;
+
+  /**
+   * The platform account that owns this resource.
+   * For connected account resources, this is the platform's account ID.
+   * For platform's own resources, this equals the account field (self-referential).
+   * @zoneless_extension
+   */
+  platform_account: string;
 }
 
 export interface ExternalWalletRequirements {
