@@ -122,6 +122,7 @@ export type BuildPayoutsBatchInput = z.infer<typeof BuildPayoutsBatchSchema>;
 /**
  * Schema for broadcasting a signed batch payout transaction.
  * Takes the signed transaction and the payout IDs it contains.
+ * Optionally accepts blockhash info from the build step to avoid a redundant RPC call.
  */
 export const BroadcastPayoutsBatchSchema = z.object({
   /** The signed transaction as a base64-encoded string */
@@ -132,6 +133,12 @@ export const BroadcastPayoutsBatchSchema = z.object({
     .array(z.string().min(1, 'Payout ID cannot be empty'))
     .min(1, 'At least one payout ID is required')
     .max(10, 'Maximum 10 payouts per batch transaction'),
+
+  /** The blockhash used when building the transaction (avoids redundant RPC call) */
+  blockhash: z.string().optional(),
+
+  /** The last valid block height from the build step (avoids redundant RPC call) */
+  last_valid_block_height: z.number().int().positive().optional(),
 });
 
 export type BroadcastPayoutsBatchInput = z.infer<typeof BroadcastPayoutsBatchSchema>;

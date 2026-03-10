@@ -183,11 +183,13 @@ export class Payouts extends BaseResource {
       secretKey
     );
 
-    // Step 4: Broadcast the signed transaction
+    // Step 4: Broadcast the signed transaction (pass blockhash to avoid redundant RPC call)
     const broadcastResult = await this.broadcast(
       {
         signed_transaction: signedTransaction,
         payouts: payoutIds,
+        blockhash: buildResult.blockhash,
+        last_valid_block_height: buildResult.last_valid_block_height,
       },
       requestOptions
     );
@@ -224,9 +226,10 @@ export class Payouts extends BaseResource {
    */
   async processAll(
     secretKey: string,
-    options?: RequestExtraOptions
+    options?: RequestExtraOptions & { delayBetweenBatchesMs?: number }
   ): Promise<ProcessPendingResult[]> {
     const results: ProcessPendingResult[] = [];
+    const delayMs = options?.delayBetweenBatchesMs ?? 2000;
     let hasMore = true;
 
     while (hasMore) {
@@ -237,6 +240,10 @@ export class Payouts extends BaseResource {
       }
 
       hasMore = result.has_more;
+
+      if (hasMore && delayMs > 0) {
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
+      }
     }
 
     return results;
