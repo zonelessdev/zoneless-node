@@ -65,4 +65,5 @@ export type ExternalWalletStatus =
   | 'validated'
   | 'verified'
   | 'verification_failed'
-  | 'errored';
+  | 'errored'
+  | 'archived';
