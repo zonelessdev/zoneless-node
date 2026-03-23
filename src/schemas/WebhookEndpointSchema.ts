@@ -19,13 +19,7 @@ export const CreateWebhookEndpointSchema = z.object({
       (events) => events.every((e) => EVENT_TYPES.includes(e as EventType)),
       { message: 'Invalid event type specified' }
     ),
-  url: z
-    .string()
-    .url('URL must be a valid URL')
-    .refine(
-      (url) => url.startsWith('https://') || process.env.LIVEMODE === 'false',
-      { message: 'URL must use HTTPS in production' }
-    ),
+  url: z.string().url('URL must be a valid URL'),
   api_version: z.string().optional(),
   connect: z.boolean().optional(),
   description: z
@@ -45,14 +39,7 @@ export type CreateWebhookEndpointInput = z.infer<
  */
 export const UpdateWebhookEndpointSchema = z
   .object({
-    url: z
-      .string()
-      .url('URL must be a valid URL')
-      .refine(
-        (url) =>
-          url.startsWith('https://') || process.env.NODE_ENV === 'development',
-        { message: 'URL must use HTTPS in production' }
-      ),
+    url: z.string().url('URL must be a valid URL'),
     enabled_events: z
       .array(z.string())
       .min(1, 'At least one event type must be specified')
